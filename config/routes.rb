@@ -1,4 +1,8 @@
 Aprender::Application.routes.draw do
+
+  root :to => 'main#usa_state_capitals'
+  get "usa_state_capitals",    to: 'main#usa_state_capitals'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
