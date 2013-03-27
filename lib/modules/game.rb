@@ -5,6 +5,7 @@ class Game
   MAX_STREAK = 8
 
   def initialize
+    puts "*** Creating new game"
     @answers               = []
     @questions_and_answers = {}
     @questions_answered    = 0
