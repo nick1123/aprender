@@ -1,12 +1,16 @@
 <h3><%= @game.round.question %></h3>
 
 <% @game.round.possible_answers.each do |possible_answer| %>
-  <% url = @anchor_path + "?selected_answer=" + possible_answer.text.encode_base64_url_safe 
-     anchor_tag = "<a href='#{url}'>#{possible_answer.text}</a>" 
-     if possible_answer.previously_selected 
+  <% url = @anchor_path + "?selected_answer=" + possible_answer.text.encode_base64_url_safe
+     anchor_tag = "<a href='#{url}'>#{possible_answer.text}</a>"
+     if possible_answer.previously_selected
        anchor_tag = "<del>#{possible_answer.text}</del>"
      end %>
   <p><%= anchor_tag.html_safe %></p>
 <% end %>
 
 Questions remaining <%= @game.questions_left %>
+
+<p>Last <%= Game::MAX_STREAK %> Rounds @game.win_loss_streak.inspect
+
+<p><a href="<%= @anchor_path %>?start_over=true">Start Over</a>

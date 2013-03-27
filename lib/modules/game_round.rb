@@ -21,4 +21,12 @@ class GameRound
     end
   end
 
+  def outcome
+    (answers_added == 1 ? "W" : "L")
+  end
+
+  def to_s
+    "*** Round:  question: #{question}\n  " + (possible_answers.map {|pa| pa.to_s}).join("\n  ")
+  end
+
 end

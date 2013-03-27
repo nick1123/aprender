@@ -12,13 +12,19 @@ end
 
 class MainController < ApplicationController
   def usa_state_capitals
+    puts "\n\n*****************************\n\n"
     @anchor_path = 'usa_state_capitals'
-    session[:game] = ::Simple.usa_state_capitals if session[:game].blank?
+    if session[:game].blank? || params['start_over'].present?
+      session[:game] = ::Simple.usa_state_capitals
+      # session[:game].start
+    end
+
     @game = session[:game]
 
     selected_answer = params["selected_answer"]
     selected_answer = selected_answer.decode_base64_url_safe if selected_answer.present?
     if selected_answer
+      puts "*** selected_answer: #{selected_answer}"
       @game.add_answer(selected_answer)
     end
 
