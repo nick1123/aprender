@@ -5,7 +5,7 @@ class GameRound
     @answers_added    = 0
     @completed        = false
     @correct_answer   = _correct_answer
-    @possible_answers = (_wrong_answers << _correct_answer).map {|answer| Answer.new(answer)}
+    @possible_answers = (_wrong_answers << _correct_answer).shuffle.map {|answer| Answer.new(answer)}
     @question         = _question
   end
 
@@ -20,4 +20,5 @@ class GameRound
       end
     end
   end
+
 end

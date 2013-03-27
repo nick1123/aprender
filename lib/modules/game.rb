@@ -11,7 +11,12 @@ class Game
   end
 
   def add_answer(answer)
-    @current_round.add_answer(answer)    
+    @current_round.add_answer(answer)
+
+    if !@current_round.completed
+      # The answer was wrong
+      @questions_missed << @current_round.question
+    end
   end
 
   def add_question_and_answer(question, answer)
@@ -45,11 +50,18 @@ class Game
 private
 
   def next_round
-    @questions_original.shuffle!
-    question = @questions_original.pop
+    question = nil
+    if questions_missed.present? && rand <= 0.6
+      questions_missed.shuffle!
+      question = questions_missed.pop
+    else
+      questions_original.shuffle!
+      question = questions_original.pop
+    end
+    
     correct_answer = questions_and_answers[question]
     wrong_answers = []
-    while wrong_answers.size < 3
+    while wrong_answers.uniq.size < 3
       potential_wrong_answer = answers.sample
       wrong_answers << potential_wrong_answer if potential_wrong_answer != correct_answer
     end
