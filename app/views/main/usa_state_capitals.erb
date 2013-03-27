@@ -1,3 +1,5 @@
-hello
+<h3><%= @round.question %></h3>
 
-<%=  %>
+<% @round.possible_answers.each do |possible_answer| %>
+  <p><%= possible_answer %></p>
+<% end %>

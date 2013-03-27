@@ -15,6 +15,8 @@ private
       answer = pieces[1]
       game.add_question_and_answer(question, answer)
     end
+
+    return game
   end
 
 end
