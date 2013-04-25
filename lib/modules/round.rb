@@ -1,4 +1,4 @@
-class GameRound
+class Round
   attr_reader :answers_added, :completed, :correct_answer, :possible_answers, :question
 
   def initialize(_question, _correct_answer, _wrong_answers)

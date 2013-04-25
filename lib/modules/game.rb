@@ -58,7 +58,7 @@ private
       questions_original.shuffle!
       question = questions_original.pop
     end
-    
+
     correct_answer = questions_and_answers[question]
     wrong_answers = []
     while wrong_answers.uniq.size < 3
@@ -66,7 +66,7 @@ private
       wrong_answers << potential_wrong_answer if potential_wrong_answer != correct_answer
     end
 
-    return GameRound.new(question, correct_answer, wrong_answers)
+    return Round.new(question, correct_answer, wrong_answers)
   end
 
 end
