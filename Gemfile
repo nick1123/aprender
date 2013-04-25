@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -8,6 +8,11 @@ gem 'rails', '3.2.12'
 gem 'sqlite3'
 gem "sqlite3-ruby", :require => "sqlite3"
 
+gem 'rb-readline' # temp fix
+
+# Test it with RSpec
+gem 'rspec-rails', :group => [ :development, :test ]
+gem 'pry', :group => [ :development, :test ]
 
 # Gems used only for assets and not required
 # in production environments by default.
