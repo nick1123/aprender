@@ -1,13 +1,12 @@
 class Answer
-  attr_accessor :previously_selected
-  attr_reader :text
+  attr_reader :successfully_matched, :text
 
   def initialize(_text)
     @text = _text
-    @previously_selected = false
+    @successfully_matched = false
   end
 
-  def to_s
-    "Answer: #{text}  previously_selected: #{previously_selected}"
+  def try_to_match(answer_text)
+    @successfully_matched = true if answer_text == text
   end
 end
