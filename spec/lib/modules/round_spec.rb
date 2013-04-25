@@ -54,11 +54,7 @@ describe Round do
         specify { subject.completed?.should be_true }
       end
     end
-
-    # before { subject.record_answer("Salem") }
-    # specify { subject.completed?.should be_false }
   end
-
 
   context "#record_answer" do
     before { subject.record_answer("Salem") }
