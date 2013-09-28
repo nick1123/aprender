@@ -1,72 +1,36 @@
 class Game
-  attr_reader :answers, :questions_and_answers, :questions_missed, :questions_original, :questions_answered
+  attr_reader :extra_rounds,
+              :normal_rounds,
+              :round_factory
 
-  def initialize
-    @answers               = []
-    @current_round         = nil
-    @questions_and_answers = {}
-    @questions_answered    = 0
-    @questions_missed      = []
-    @questions_original    = []
+  def initialize(_rounds, _round_factory)
+    @normal_rounds = _rounds
+    @round_factory = _round_factory
+    @extra_rounds  = []
   end
 
-  def add_answer(answer)
-    @current_round.add_answer(answer)
-
-    if !@current_round.completed
-      # The answer was wrong
-      @questions_missed << @current_round.question
-    end
+  def answered_correctly?(suggested_answer)
+    return true if answered_correctly?(suggested_answer)
+    
+    # They answered incorrectly
+    question = @current_round.question
+    normal_rounds << round_factory.build_single_round(question)
+    extra_rounds  << round_factory.build_single_round(question)
+    return false
   end
-
-  def add_question_and_answer(question, answer)
-    @questions_and_answers[question] = answer
-    @answers << answer
-
-    # Add the question 2 times
-    (1..2).each do
-      @questions_original << question
-    end
-  end
-
-  def round
-    @current_round = next_round if @current_round.blank?
-    @current_round = next_round if @current_round.completed
-    return @current_round
-  end
-
-  def finished?
-    questions_left == 0
-  end
-
-  def more?
-    !finished?
-  end
-
-  def questions_left
-    questions_original.size + questions_missed.size
-  end
-
-private
 
   def next_round
-    question = nil
-    if questions_missed.present? && rand <= 0.6
-      questions_missed.shuffle!
-      question = questions_missed.pop
-    else
-      questions_original.shuffle!
-      question = questions_original.pop
-    end
-    
-    correct_answer = questions_and_answers[question]
-    wrong_answers = []
-    while wrong_answers.uniq.size < 3
-      potential_wrong_answer = answers.sample
-      wrong_answers << potential_wrong_answer if potential_wrong_answer != correct_answer
+    if extra_rounds.empty? && normal_rounds.empty?
+      @current_round = nil
+      return @current_round
     end
 
-    return GameRound.new(question, correct_answer, wrong_answers)
+    round_arrays = []
+    round_arrays << normal_rounds if normal_rounds.present?
+    round_arrays << extra_rounds  if extra_rounds.present?
+    array = round_arrays.sample
+    @current_round = array.pop
+    return @current_round
   end
 
 end
