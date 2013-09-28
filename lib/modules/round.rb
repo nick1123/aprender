@@ -1,24 +1,31 @@
-class GameRound
-  attr_reader :answers_added, :completed, :correct_answer, :possible_answers, :question
+class Round
+  attr_reader :correct_answer,
+              :incorrect_answer,
+              :question,
+              :status
 
-  def initialize(_question, _correct_answer, _wrong_answers)
-    @answers_added    = 0
-    @completed        = false
-    @correct_answer   = _correct_answer
-    @possible_answers = (_wrong_answers << _correct_answer).shuffle.map {|answer| Answer.new(answer)}
+  STATUS_UNANSWERED           = 0
+  STATUS_CORRECTLY_ANSWERED   = 1
+  STATUS_INCORRECTLY_ANSWERED = 2
+
+  def initialize(_question, _correct_answer, _incorrect_answer)
     @question         = _question
+    @correct_answer   = _correct_answer
+    @incorrect_answer =_ incorrect_answer
+    @status           = ::Round::STATUS_UNANSWERED
   end
 
-  def add_answer(answer)
-    @answers_added += 1
-    @completed = true if answer == correct_answer
-
-    # Record this answer
-    possible_answers.each do |possible_answer|
-      if possible_answer.text == answer
-        possible_answer.previously_selected = true
-      end
+  def answer_question(suggested_answer)
+    return unless status == ::Round::STATUS_UNANSWERED
+    
+    if suggested_answer == correct_answer
+      @status = ::Round::STATUS_CORRECTLY_ANSWERED
+    else
+      @status = ::Round::STATUS_INCORRECTLY_ANSWERED
     end
   end
 
+  def possible_answers
+    @possible_answers ||= [correct_answer, incorrect_answer].shuffle
+  end
 end
